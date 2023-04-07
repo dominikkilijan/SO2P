@@ -6,6 +6,11 @@
 int main()
 {
     std::cout << "Hello World!\n";
+    int n = 5;
+    for (int i = 0; i < n; i++)
+    {
+        std::cout << "test\n";
+    }
 }
 
 // Uruchomienie programu: Ctrl + F5 lub menu Debugowanie > Uruchom bez debugowania
