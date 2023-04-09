@@ -13,7 +13,7 @@ std::condition_variable cv;
 		while (!value)
 			cv.wait(lock);
 		--value;
-		std::cout << value << std::endl;
+		//std::cout << value << std::endl;
 	}
 
 	void Chopstick::signal()
@@ -21,7 +21,7 @@ std::condition_variable cv;
 		std::lock_guard<decltype(m)> lock(m);
 		++value;
 		cv.notify_one();
-		std::cout << value << std::endl;
+		//std::cout << value << std::endl;
 	}
 
 	void Chopstick::printValue()
