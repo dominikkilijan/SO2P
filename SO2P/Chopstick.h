@@ -2,10 +2,10 @@
 
 class Chopstick
 {
-//private:
+private:
 //	std::mutex m;
 //	std::condition_variable cv;
-//	int value;
+	int value;
 
 public:
 	void wait();

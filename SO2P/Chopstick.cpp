@@ -5,7 +5,6 @@
 
 std::mutex m;
 std::condition_variable cv;
-int value = 1;
 
 
 	void Chopstick::wait()
