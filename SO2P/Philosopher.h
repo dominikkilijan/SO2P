@@ -1,3 +1,5 @@
 #pragma once
-void philosopher(int id);
+#include "Chopstick.h"
+
+void philosopher(int id, Chopstick *chopstick);
 

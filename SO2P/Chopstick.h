@@ -11,5 +11,6 @@ public:
 	void wait();
 	void signal();
 	void printValue();
+	void setValue(int val);
 };
 

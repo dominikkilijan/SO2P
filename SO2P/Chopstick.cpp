@@ -14,6 +14,7 @@ int value = 1;
 		while (!value)
 			cv.wait(lock);
 		--value;
+		std::cout << value << std::endl;
 	}
 
 	void Chopstick::signal()
@@ -21,9 +22,15 @@ int value = 1;
 		std::lock_guard<decltype(m)> lock(m);
 		++value;
 		cv.notify_one();
+		std::cout << value << std::endl;
 	}
 
 	void Chopstick::printValue()
 	{
 		std::cout << value << std::endl;
+	}
+
+	void Chopstick::setValue(int val)
+	{
+		value = val;
 	}
