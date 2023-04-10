@@ -18,21 +18,32 @@ void philosopher(int id, Chopstick *chopstick)
 		mutexCout.lock();
 		std::cout << id << ". Glodny jestem\n";
 		mutexCout.unlock();
-		// grab left chopstick
-		chopstick[id].wait();
-		// grab right chopstick
-		chopstick[(id + 1) % 5].wait();
+
+
+		// grab left then right chopstick or right then left depending on pairity of id
+		if (id % 2 == 0)
+		{
+			chopstick[id].wait();
+			chopstick[(id + 1) % 5].wait();
+		}
+		else
+		{
+			chopstick[(id + 1) % 5].wait();
+			chopstick[id].wait();
+		}
+		
 		// eat
 		mutexCout.lock();
 		std::cout << id << ". Omnomnomnom\n";
 		mutexCout.unlock();
 		std::this_thread::sleep_for(2s);
+
 		// leave left chopstick
-		chopstick[id].signal();
-		// leave right chopstick
-		chopstick[(id + 1) % 5].signal();
 		mutexCout.lock();
 		std::cout << id << ". Pojedzone\n";
 		mutexCout.unlock();
+		chopstick[id].signal();
+		// leave right chopstick
+		chopstick[(id + 1) % 5].signal();
 	//} while (true);
 }
