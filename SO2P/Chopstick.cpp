@@ -20,7 +20,7 @@ std::condition_variable cv;
 	{
 		std::lock_guard<decltype(m)> lock(m);
 		++value;
-		cv.notify_one();
+		cv.notify_all();
 		//std::cout << value << std::endl;
 	}
 

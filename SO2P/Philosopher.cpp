@@ -15,20 +15,28 @@ void philosopher(int id, Chopstick *chopstick)
 		mutexCout.lock();
 		std::cout << "Philosopher nr " << id << "\n";
 		mutexCout.unlock();
-		mutexCout.lock();
-		std::cout << id << ". Glodny jestem\n";
-		mutexCout.unlock();
+		
 
 
 		// grab left then right chopstick or right then left depending on pairity of id
 		if (id % 2 == 0)
 		{
 			chopstick[id].wait();
+			
+			mutexCout.lock();
+			std::cout << id << ". Glodny jestem\n";
+			mutexCout.unlock();
+			
 			chopstick[(id + 1) % 5].wait();
 		}
 		else
 		{
 			chopstick[(id + 1) % 5].wait();
+			
+			mutexCout.lock();
+			std::cout << id << ". Glodny jestem\n";
+			mutexCout.unlock();
+			
 			chopstick[id].wait();
 		}
 		
@@ -45,5 +53,11 @@ void philosopher(int id, Chopstick *chopstick)
 		chopstick[id].signal();
 		// leave right chopstick
 		chopstick[(id + 1) % 5].signal();
+
+		// think
+		mutexCout.lock();
+		std::cout << id << ". Hmmm\n";
+		mutexCout.unlock();
+		std::this_thread::sleep_for(2s);
 	//} while (true);
 }
