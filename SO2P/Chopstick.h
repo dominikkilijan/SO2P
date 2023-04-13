@@ -3,8 +3,7 @@
 class Chopstick
 {
 private:
-//	std::mutex m;
-//	std::condition_variable cv;
+	// Na start chopstick jest dostepny do uzycia
 	int value = 1;
 
 public:

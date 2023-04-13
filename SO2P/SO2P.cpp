@@ -7,7 +7,7 @@ Chopstick chopstick[5];
 
 int main()
 {
-
+    // watki zachowujace sie jak filozofowie (jedzenie i myslenie)
     std::thread ph1(philosopher, 0, chopstick);
     std::thread ph2(philosopher, 1, chopstick);
     std::thread ph3(philosopher, 2, chopstick);
