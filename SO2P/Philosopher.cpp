@@ -1,6 +1,6 @@
 #include <iostream>
 #include <thread>
-#include "philosopher.h"
+#include "Philosopher.h"
 #include <mutex>
 #include "Chopstick.h"
 #include <chrono>

@@ -1,5 +1,5 @@
 ﻿#include <iostream>
-#include "philosopher.h"
+#include "Philosopher.h"
 #include <thread>
 #include "Chopstick.h"
 
