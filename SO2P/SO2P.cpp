@@ -9,6 +9,7 @@ Chopstick chopstick[5];
 int main()
 {
     // watki zachowujace sie jak filozofowie (jedzenie i myslenie)
+    /*
     std::thread ph1(philosopher, 0, chopstick);
     std::thread ph2(philosopher, 1, chopstick);
     std::thread ph3(philosopher, 2, chopstick);
@@ -20,10 +21,46 @@ int main()
     ph3.join();
     ph4.join();
     ph5.join();
+    */
 
     initscr();			/* Start curses mode 		  */
-	printw("Hello World !!!");	/* Print Hello World		  */
-	refresh();			/* Print it on to the real screen */
+    noecho();
+    cbreak();
+
+    // wielkosc ekranu
+    int yMax, xMax;
+    getmaxyx(stdscr, yMax, xMax);
+
+    // tworzenie okna
+    WINDOW * window = newwin(20, 50, (yMax/2)-10, 15);
+    box(window, 0, 0);
+    refresh();
+    wrefresh(window);    
+
+    // graficzka stolu
+    WINDOW * dTable = newwin(8, 15, 8, 33);
+    box(dTable, 0, 0);
+    refresh();
+    wrefresh(dTable);
+
+    // glowy filozofow
+    mvwprintw(window, 5, 24, "(0)");
+    mvwprintw(window, 9, 34, "(1)");
+    mvwprintw(window, 14, 28, "(2)");
+    mvwprintw(window, 14, 20, "(3)");
+    mvwprintw(window, 9, 14, "(4)");
+
+    // paleczki na stole
+    mvwprintw(dTable, 1, 2, "\\");  //0
+    mvwprintw(dTable, 1, 11, "/");  //1
+    mvwprintw(dTable, 6, 12, "\\"); //2
+    mvwprintw(dTable, 6, 7, "|");   //3
+    mvwprintw(dTable, 6, 2, "/");   //4
+
+    wrefresh(window);
+    wrefresh(dTable);
+
+//	printw("Hello World !!!");	/* Print Hello World		  */
 	getch();			/* Wait for user input */
 	endwin();			/* End curses mode		  */
 
