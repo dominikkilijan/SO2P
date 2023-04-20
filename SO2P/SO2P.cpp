@@ -44,14 +44,14 @@ int main()
     wrefresh(dTable);
 
     // glowy filozofow
-    mvwprintw(window, 5, 24, "(0)");
+    mvwprintw(window, 5, 23, "(0)");
     mvwprintw(window, 9, 34, "(1)");
-    mvwprintw(window, 14, 28, "(2)");
-    mvwprintw(window, 14, 20, "(3)");
-    mvwprintw(window, 9, 14, "(4)");
+    mvwprintw(window, 14, 27, "(2)");
+    mvwprintw(window, 14, 19, "(3)");
+    mvwprintw(window, 9, 13, "(4)");
 
     // paleczki na stole
-    mvwprintw(dTable, 1, 2, "\\");  //0
+    mvwprintw(dTable, 1, 3, "\\");  //0
     mvwprintw(dTable, 1, 11, "/");  //1
     mvwprintw(dTable, 6, 12, "\\"); //2
     mvwprintw(dTable, 6, 7, "|");   //3
