@@ -13,9 +13,9 @@ std::mutex mutexCout;
 void philosopher(int id, Chopstick *chopstick)
 {
 	//do {
-		mutexCout.lock();
-		std::cout << "Philosopher nr " << id << "\n";
-		mutexCout.unlock();
+		//mutexCout.lock();
+		//std::cout << "Philosopher nr " << id << "\n";
+		//mutexCout.unlock();
 		
 
 
@@ -24,42 +24,46 @@ void philosopher(int id, Chopstick *chopstick)
 		{
 			chopstick[id].wait();
 			
-			mutexCout.lock();
-			std::cout << id << ". Glodny jestem\n";
-			mutexCout.unlock();
+			//mutexCout.lock();
+			//std::cout << id << ". Glodny jestem\n";
+			//mutexCout.unlock();
 			
 			chopstick[(id + 1) % 5].wait();
+			std::this_thread::sleep_for(1s);
 		}
 		else
 		{
 			chopstick[(id + 1) % 5].wait();
 			
-			mutexCout.lock();
-			std::cout << id << ". Glodny jestem\n";
-			mutexCout.unlock();
+			//mutexCout.lock();
+			//std::cout << id << ". Glodny jestem\n";
+			//mutexCout.unlock();
 			
 			chopstick[id].wait();
+			std::this_thread::sleep_for(1s);
 		}
 		
 		// jedzenie
-		mutexCout.lock();
-		std::cout << id << ". Omnomnomnom\n";
-		mutexCout.unlock();
+		//mutexCout.lock();
+		//std::cout << id << ". Omnomnomnom\n";
+		//mutexCout.unlock();
 		std::this_thread::sleep_for(2s);
 
 		// odkladanie lewego chopsticka
-		mutexCout.lock();
-		std::cout << id << ". Pojedzone\n";
-		mutexCout.unlock();
+		//mutexCout.lock();
+		//std::cout << id << ". Pojedzone\n";
+		//mutexCout.unlock();
 		chopstick[id].signal();
+		std::this_thread::sleep_for(1s);
 
 		// odkladanie prawego chopsticka
 		chopstick[(id + 1) % 5].signal();
+		std::this_thread::sleep_for(1s);
 
 		// myslenie
-		mutexCout.lock();
-		std::cout << id << ". Hmmm\n";
-		mutexCout.unlock();
+		//mutexCout.lock();
+		//std::cout << id << ". Hmmm\n";
+		//mutexCout.unlock();
 		std::this_thread::sleep_for(2s);
 	//} while (true);
 }
