@@ -15,7 +15,7 @@ private:
 public:
 	Chopstick(WINDOW* window, int yLoc, int xLoc, char charSymbol);
 	void wait();
-	void signal();
+	void signal(int id);
 	void printValue();
 	void setValue(int val);
 };

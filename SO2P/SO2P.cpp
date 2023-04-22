@@ -34,7 +34,7 @@ int main()
     mvwprintw(window, 14, 27, "(2)");
     mvwprintw(window, 14, 19, "(3)");
     mvwprintw(window, 9, 13, "(4)");
-    //wrefresh(window);
+    wrefresh(window);
 
     // paleczki na stole
     Chopstick chopstick[] = {Chopstick(dTable, 1,3, '\\'), 
@@ -51,11 +51,11 @@ int main()
     mvwprintw(dTable, 6, 2, "/");   //4
     */
     // watki zachowujace sie jak filozofowie (jedzenie i myslenie)
-    std::thread ph1(philosopher, 0, chopstick);
-    std::thread ph2(philosopher, 1, chopstick);
-    std::thread ph3(philosopher, 2, chopstick);
-    std::thread ph4(philosopher, 3, chopstick);
-    std::thread ph5(philosopher, 4, chopstick);
+    std::thread ph1(philosopher, 0, chopstick, window, 5, 23);
+    std::thread ph2(philosopher, 1, chopstick, window, 9, 34);
+    std::thread ph3(philosopher, 2, chopstick, window, 14, 27);
+    std::thread ph4(philosopher, 3, chopstick, window, 14, 19);
+    std::thread ph5(philosopher, 4, chopstick, window, 9, 13);
 
     ph1.join();
     ph2.join();

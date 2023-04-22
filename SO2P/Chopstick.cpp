@@ -3,6 +3,10 @@
 #include <condition_variable>
 #include <iostream>
 #include <ncurses.h>
+#include <chrono>
+#include <thread>
+
+using namespace std::chrono_literals;
 
 std::mutex m;
 std::condition_variable cv;
@@ -34,14 +38,16 @@ Chopstick::Chopstick(WINDOW* window, int yLoc, int xLoc, char charSymbol)
 	}
 
 	// odkladanie paleczki (funkcja V)
-	void Chopstick::signal()
+	void Chopstick::signal(int id)
 	{
 		std::lock_guard<decltype(m)> lock(m);
-		++value;
+		
 		// paleczka pojawia sie na stole
 		mvwaddch(dTable, y, x, character);
 		wrefresh(dTable);
-
+		//std::this_thread::sleep_for(1s);
+		
+		++value;
 		cv.notify_all(); // idk czy w tym przypadku to jest jakas wielka roznica czy jest _one czy _all
 	}
 

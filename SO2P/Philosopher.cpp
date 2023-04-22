@@ -4,66 +4,76 @@
 #include <mutex>
 #include "Chopstick.h"
 #include <chrono>
+#include <ncurses.h>
 
 using namespace std::chrono_literals;
 
 // mutex zapobiegajacy nakladaniu sie tekstow w konsoli
 std::mutex mutexCout;
 
-void philosopher(int id, Chopstick *chopstick)
+void philosopher(int id, Chopstick *chopstick, WINDOW* window, int y, int x)
 {
 	//do {
-		//mutexCout.lock();
-		//std::cout << "Philosopher nr " << id << "\n";
-		//mutexCout.unlock();
-		
+		// pauza zeby zobaczyc jak to wyglada na start
+		std::this_thread::sleep_for(1s);
 
 
 		// chwytanie lewego albo prawego chopsticka w zaleznosci od parzystosci - zapobieganie deadlockom
 		if (id % 2 == 0)
 		{
+			// lewy
 			chopstick[id].wait();
-			
-			//mutexCout.lock();
-			//std::cout << id << ". Glodny jestem\n";
-			//mutexCout.unlock();
-			
+			if (id == 2 || id == 4)
+				mvwprintw(window, y, x+3, "\\");	
+			else mvwprintw(window, y, x-1, "/");
+			wrefresh(window);
+			std::this_thread::sleep_for(1s);
+
+			// prawy
 			chopstick[(id + 1) % 5].wait();
+			if (id == 2 || id == 4)
+				mvwprintw(window, y, x-1, "/");	
+			else mvwprintw(window, y, x+3, "\\");
+			wrefresh(window);
 			std::this_thread::sleep_for(1s);
 		}
 		else
 		{
+			// prawy
 			chopstick[(id + 1) % 5].wait();
+			if (id == 1 || id == 3)
+				mvwprintw(window, y, x-1, "/");	
+			else mvwprintw(window, y, x+3, "\\");
+			wrefresh(window);
+			std::this_thread::sleep_for(1s);
 			
-			//mutexCout.lock();
-			//std::cout << id << ". Glodny jestem\n";
-			//mutexCout.unlock();
-			
+			// lewy
 			chopstick[id].wait();
+			if (id == 1 || id == 3)
+				mvwprintw(window, y, x+3, "\\");	
+			else mvwprintw(window, y, x-1, "/");
+			wrefresh(window);
 			std::this_thread::sleep_for(1s);
 		}
 		
 		// jedzenie
-		//mutexCout.lock();
-		//std::cout << id << ". Omnomnomnom\n";
-		//mutexCout.unlock();
 		std::this_thread::sleep_for(2s);
 
 		// odkladanie lewego chopsticka
-		//mutexCout.lock();
-		//std::cout << id << ". Pojedzone\n";
-		//mutexCout.unlock();
-		chopstick[id].signal();
+		chopstick[id].signal(id);
+		mvwprintw(window, y, x-1, ".");
+		wrefresh(window);
+	
 		std::this_thread::sleep_for(1s);
 
 		// odkladanie prawego chopsticka
-		chopstick[(id + 1) % 5].signal();
+		chopstick[(id + 1) % 5].signal(id);
+		mvwprintw(window, y, x+3, ".");
+		wrefresh(window);
+
 		std::this_thread::sleep_for(1s);
 
 		// myslenie
-		//mutexCout.lock();
-		//std::cout << id << ". Hmmm\n";
-		//mutexCout.unlock();
 		std::this_thread::sleep_for(2s);
 	//} while (true);
 }
