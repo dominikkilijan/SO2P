@@ -7,12 +7,15 @@
 
 
 // wpolrzedne dla chopstick
-int chy[] = {1,1,6,6,6};
-int chx[] = {3,11,12,7,2};
+int chy[5] = {1,1,6,6,6};
+int chx[5] = {3,11,12,7,2};
 
 // wspolrzedne dla philosopher
-int phy[] = {5,9,14,14,9};
-int phx[] = {23,34,27,19,13};
+int phy[5] = {5,9,14,14,9};
+int phx[5] = {23,34,27,19,12};
+
+// symbole chopstickow
+char symbol[5] = {'\\' , '/' , '\\' , '|' , '/'};
 
 int main()
 {
@@ -38,27 +41,21 @@ int main()
     wrefresh(dTable);
 
     // glowy filozofow
-    mvwprintw(window, phy[0], phx[0], "(0)");
-    mvwprintw(window, phy[1], phx[1], "(1)");
-    mvwprintw(window, phy[2], phx[2], "(2)");
-    mvwprintw(window, phy[3], phx[3], "(3)");
-    mvwprintw(window, phy[4], phx[4], "(4)");
+    mvwprintw(window, phy[0], phx[0], "(*-*)");
+    mvwprintw(window, phy[1], phx[1], "(*<*)");
+    mvwprintw(window, phy[2], phx[2], "(*^*)");
+    mvwprintw(window, phy[3], phx[3], "(*^*)");
+    mvwprintw(window, phy[4], phx[4], "(*>*)");
     wrefresh(window);
 
     // paleczki na stole
-    Chopstick chopstick[] = {Chopstick(dTable, chy[0], chx[0], '\\'), 
-                             Chopstick(dTable, chy[1], chx[1], '/'), 
-                             Chopstick(dTable, chy[2], chx[2], '\\'), 
-                             Chopstick(dTable, chy[3], chx[3], '|'), 
-                             Chopstick(dTable, chy[4], chx[4], '/') };
+    Chopstick chopstick[] = {Chopstick(dTable, chy[0], chx[0], symbol[0], chy[1], chx[1], symbol[1]), 
+                             Chopstick(dTable, chy[1], chx[1], symbol[1], chy[2], chx[2], symbol[2]), 
+                             Chopstick(dTable, chy[2], chx[2], symbol[2], chy[3], chx[3], symbol[3]), 
+                             Chopstick(dTable, chy[3], chx[3], symbol[3], chy[4], chx[4], symbol[4]), 
+                             Chopstick(dTable, chy[4], chx[4], symbol[4], chy[0], chx[0], symbol[0]) };
 
 
-    /*mvwprintw(dTable, 1, 3, "\\");  //0
-    mvwprintw(dTable, 1, 11, "/");  //1
-    mvwprintw(dTable, 6, 12, "\\"); //2
-    mvwprintw(dTable, 6, 7, "|");   //3
-    mvwprintw(dTable, 6, 2, "/");   //4
-    */
     // watki zachowujace sie jak filozofowie (jedzenie i myslenie)
     std::thread ph1(philosopher, 0, chopstick, window, phy[0], phx[0]);
     std::thread ph2(philosopher, 1, chopstick, window, phy[1], phx[1]);

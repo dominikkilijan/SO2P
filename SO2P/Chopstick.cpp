@@ -8,16 +8,23 @@
 
 using namespace std::chrono_literals;
 
+extern int chy[5];
+extern int chx[5];
+extern char symbol[5];
+
 std::mutex m;
 std::condition_variable cv;
 
 // konstruktor
-Chopstick::Chopstick(WINDOW* window, int yLoc, int xLoc, char charSymbol)
+Chopstick::Chopstick(WINDOW* window, int yLoc, int xLoc, char charSymbol, int yNextLoc, int xNextLoc, char characterNextLoc)
 {
 	dTable = window;
 	y = yLoc;
 	x = xLoc;
 	character = charSymbol;
+	yNext = yNextLoc;
+	xNext = xNextLoc;
+	characterNext = characterNext;
 	// poczatkowe polozenie na stole
 	mvwaddch(dTable, y, x, character);
 	wrefresh(dTable);
@@ -38,12 +45,23 @@ Chopstick::Chopstick(WINDOW* window, int yLoc, int xLoc, char charSymbol)
 	}
 
 	// odkladanie paleczki (funkcja V)
-	void Chopstick::signal(int id)
+	void Chopstick::signal(int id, char side)
 	{
 		std::lock_guard<decltype(m)> lock(m);
 		
 		// paleczka pojawia sie na stole
-		mvwaddch(dTable, y, x, character);
+		if (id != 0 || side == 'l')
+			mvwaddch(dTable, yNext, xNext, characterNext);
+		else if (id != 0 || side == 'r')
+			mvwaddch(dTable, y, x, character);
+		else 
+			mvwaddch(dTable, chy[id], chx[id], symbol[id]);
+		
+		//if (id == 1)
+		
+		
+		//mvwaddch(dTable, chy[id], chx[id], symbol[id]);
+
 		wrefresh(dTable);
 		//std::this_thread::sleep_for(1s);
 		

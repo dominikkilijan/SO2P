@@ -11,6 +11,10 @@ using namespace std::chrono_literals;
 // mutex zapobiegajacy nakladaniu sie tekstow w konsoli
 std::mutex mutexCout;
 
+extern int phy[5];
+extern int phx[5];
+extern char symbol[5];
+
 void philosopher(int id, Chopstick *chopstick, WINDOW* window, int y, int x)
 {
 	//do {
@@ -21,37 +25,48 @@ void philosopher(int id, Chopstick *chopstick, WINDOW* window, int y, int x)
 		// chwytanie lewego albo prawego chopsticka w zaleznosci od parzystosci - zapobieganie deadlockom
 		if (id % 2 == 0)
 		{
-			// lewy
+			// jego prawy 
 			chopstick[id].wait();
-			if (id == 2 || id == 4)
-				mvwprintw(window, y, x+3, "\\");	
-			else mvwprintw(window, y, x-1, "/");
+			if (id == 2)
+				mvwprintw(window, y, x+5, "\\");	
+			else if (id == 4)
+				mvwprintw(window, y+1, x+2, "/");
+			else 
+				mvwprintw(window, y, x-1, "/");
+			
 			wrefresh(window);
 			std::this_thread::sleep_for(1s);
 
-			// prawy
+			// jego lewy
 			chopstick[(id + 1) % 5].wait();
-			if (id == 2 || id == 4)
+			if (id == 2)
 				mvwprintw(window, y, x-1, "/");	
-			else mvwprintw(window, y, x+3, "\\");
+			else if (id == 4)
+				mvwprintw(window, y-1, x+2, "\\");
+			else 
+				mvwprintw(window, y, x+5, "\\");
+			
 			wrefresh(window);
 			std::this_thread::sleep_for(1s);
 		}
 		else
 		{
-			// prawy
+			// jego lewy
 			chopstick[(id + 1) % 5].wait();
-			if (id == 1 || id == 3)
-				mvwprintw(window, y, x-1, "/");	
-			else mvwprintw(window, y, x+3, "\\");
+			if(id == 1)
+				mvwprintw(window, y+1, x+2, "\\");	
+			else 
+				mvwprintw(window, y, x-1, "/");
 			wrefresh(window);
 			std::this_thread::sleep_for(1s);
 			
-			// lewy
+			// jego prawy
 			chopstick[id].wait();
-			if (id == 1 || id == 3)
-				mvwprintw(window, y, x+3, "\\");	
-			else mvwprintw(window, y, x-1, "/");
+			if (id == 1)
+				mvwprintw(window, y-1, x+2, "/");
+			else
+				mvwprintw(window, y, x+5, "\\");	
+			
 			wrefresh(window);
 			std::this_thread::sleep_for(1s);
 		}
@@ -59,20 +74,38 @@ void philosopher(int id, Chopstick *chopstick, WINDOW* window, int y, int x)
 		// jedzenie
 		std::this_thread::sleep_for(2s);
 
-		// odkladanie lewego chopsticka
-		chopstick[id].signal(id);
-		mvwprintw(window, y, x-1, ".");
-		wrefresh(window);
+		//if (id == 0)
+		//{
+			// odkladanie lewego chopsticka
+			chopstick[id].signal(id, 'l');
+			mvwprintw(window, y, x-1, ".");
+			wrefresh(window);
 	
-		std::this_thread::sleep_for(1s);
+			std::this_thread::sleep_for(1s);
 
-		// odkladanie prawego chopsticka
-		chopstick[(id + 1) % 5].signal(id);
-		mvwprintw(window, y, x+3, ".");
-		wrefresh(window);
+			// odkladanie prawego chopsticka
+			chopstick[(id + 1) % 5].signal(id, 'r');
+			mvwprintw(window, y, x+5, ".");
+			wrefresh(window);
 
-		std::this_thread::sleep_for(1s);
+			std::this_thread::sleep_for(1s);
+		//}
+		/* else
+		{
+			// odkladanie lewego chopsticka
+			chopstick[id].signal(id, 'r');
+			mvwprintw(window, y, x-1, ".");
+			wrefresh(window);
+	
+			std::this_thread::sleep_for(1s);
 
+			// odkladanie prawego chopsticka
+			chopstick[(id + 1) % 5].signal(id, 'l');
+			mvwprintw(window, y, x+3, ".");
+			wrefresh(window);
+
+			std::this_thread::sleep_for(1s);
+		} */
 		// myslenie
 		std::this_thread::sleep_for(2s);
 	//} while (true);
