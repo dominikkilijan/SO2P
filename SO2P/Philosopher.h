@@ -2,5 +2,5 @@
 #include "Chopstick.h"
 #include <ncurses.h>
 
-void philosopher(int id, Chopstick *chopstick, WINDOW* window, int y, int x);
+void philosopher(int id, Chopstick *chopstick, WINDOW* window, WINDOW* dTable, int y, int x);
 

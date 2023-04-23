@@ -15,8 +15,6 @@ extern char symbol[5];
 std::mutex m, chM;
 std::condition_variable cv;
 
-extern std::mutex phM;
-
 // konstruktor
 Chopstick::Chopstick(WINDOW* window, int yLoc, int xLoc, char charSymbol, int yNextLoc, int xNextLoc, char characterNextLoc)
 {
@@ -42,10 +40,10 @@ Chopstick::Chopstick(WINDOW* window, int yLoc, int xLoc, char charSymbol, int yN
 			cv.wait(lock);
 		--value;
 		// paleczka znika ze stolu
-		chM.lock();
-		mvwprintw(dTable, y, x, " ");
-		wrefresh(dTable);
-		chM.unlock(); // idk czy przed czy za wrefresh
+		//chM.lock();
+		//mvwprintw(dTable, y, x, " ");
+		//wrefresh(dTable);
+		//chM.unlock(); // idk czy przed czy za wrefresh
 	}
 
 	// odkladanie paleczki (funkcja V)
@@ -54,10 +52,10 @@ Chopstick::Chopstick(WINDOW* window, int yLoc, int xLoc, char charSymbol, int yN
 		std::lock_guard<decltype(m)> lock(m);
 		
 		// paleczka pojawia sie na stole
-		chM.lock();
-		mvwaddch(dTable, chy[id], chx[id], symbol[id]);
-		wrefresh(dTable);
-		chM.unlock();
+		//chM.lock();
+		//mvwaddch(dTable, chy[id], chx[id], symbol[id]);
+		//wrefresh(dTable);
+		//chM.unlock();
 		
 		++value;
 		cv.notify_all(); // idk czy w tym przypadku to jest jakas wielka roznica czy jest _one czy _all

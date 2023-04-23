@@ -57,11 +57,11 @@ int main()
 
 
     // watki zachowujace sie jak filozofowie (jedzenie i myslenie)
-    std::thread ph0(philosopher, 0, chopstick, window, phy[0], phx[0]);
-    std::thread ph1(philosopher, 1, chopstick, window, phy[1], phx[1]);
-    std::thread ph2(philosopher, 2, chopstick, window, phy[2], phx[2]);
-    std::thread ph3(philosopher, 3, chopstick, window, phy[3], phx[3]);
-    std::thread ph4(philosopher, 4, chopstick, window, phy[4], phx[4]);
+    std::thread ph0(philosopher, 0, chopstick, window, dTable, phy[0], phx[0]);
+    std::thread ph1(philosopher, 1, chopstick, window, dTable, phy[1], phx[1]);
+    std::thread ph2(philosopher, 2, chopstick, window, dTable, phy[2], phx[2]);
+    std::thread ph3(philosopher, 3, chopstick, window, dTable, phy[3], phx[3]);
+    std::thread ph4(philosopher, 4, chopstick, window, dTable, phy[4], phx[4]);
 
     ph0.join();
     ph1.join();
