@@ -15,7 +15,7 @@ int phy[5] = {5,9,14,14,9};
 int phx[5] = {23,34,27,19,12};
 
 // symbole chopstickow
-char symbol[5] = {'\\' , '/' , '\\' , '|' , '/'};
+char symbol[5] = {'0' , '1' , '2' , '3' , '4'};//{'\\' , '/' , '\\' , '|' , '/'};
 
 int main()
 {
@@ -41,7 +41,7 @@ int main()
     wrefresh(dTable);
 
     // glowy filozofow
-    mvwprintw(window, phy[0], phx[0], "(*-*)");
+    mvwprintw(window, phy[0], phx[0], "(*v*)");
     mvwprintw(window, phy[1], phx[1], "(*<*)");
     mvwprintw(window, phy[2], phx[2], "(*^*)");
     mvwprintw(window, phy[3], phx[3], "(*^*)");
@@ -57,17 +57,17 @@ int main()
 
 
     // watki zachowujace sie jak filozofowie (jedzenie i myslenie)
-    std::thread ph1(philosopher, 0, chopstick, window, phy[0], phx[0]);
-    std::thread ph2(philosopher, 1, chopstick, window, phy[1], phx[1]);
-    std::thread ph3(philosopher, 2, chopstick, window, phy[2], phx[2]);
-    std::thread ph4(philosopher, 3, chopstick, window, phy[3], phx[3]);
-    std::thread ph5(philosopher, 4, chopstick, window, phy[4], phx[4]);
+    std::thread ph0(philosopher, 0, chopstick, window, phy[0], phx[0]);
+    std::thread ph1(philosopher, 1, chopstick, window, phy[1], phx[1]);
+    std::thread ph2(philosopher, 2, chopstick, window, phy[2], phx[2]);
+    std::thread ph3(philosopher, 3, chopstick, window, phy[3], phx[3]);
+    std::thread ph4(philosopher, 4, chopstick, window, phy[4], phx[4]);
 
+    ph0.join();
     ph1.join();
     ph2.join();
     ph3.join();
     ph4.join();
-    ph5.join();
     
 
 	getch();			/* Wait for user input */

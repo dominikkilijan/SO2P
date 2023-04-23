@@ -50,18 +50,15 @@ Chopstick::Chopstick(WINDOW* window, int yLoc, int xLoc, char charSymbol, int yN
 		std::lock_guard<decltype(m)> lock(m);
 		
 		// paleczka pojawia sie na stole
-		if (id != 0 || side == 'l')
-			mvwaddch(dTable, yNext, xNext, characterNext);
-		else if (id != 0 || side == 'r')
+		if (side == 'r')
+			mvwaddch(dTable, chy[id], chx[id], symbol[id]);
+
+		
+		else if (id != 0 || side == 'l')
 			mvwaddch(dTable, y, x, character);
 		else 
-			mvwaddch(dTable, chy[id], chx[id], symbol[id]);
+			mvwaddch(dTable, chy[id], chx[id], symbol[id]); 
 		
-		//if (id == 1)
-		
-		
-		//mvwaddch(dTable, chy[id], chx[id], symbol[id]);
-
 		wrefresh(dTable);
 		//std::this_thread::sleep_for(1s);
 		

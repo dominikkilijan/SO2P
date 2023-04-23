@@ -28,11 +28,14 @@ void philosopher(int id, Chopstick *chopstick, WINDOW* window, int y, int x)
 			// jego prawy 
 			chopstick[id].wait();
 			if (id == 2)
-				mvwprintw(window, y, x+5, "\\");	
+				//mvwprintw(window, y, x+5, "\\");
+				mvwaddch(window, y, x+5, symbol[id]); 	
 			else if (id == 4)
-				mvwprintw(window, y+1, x+2, "/");
+				//mvwprintw(window, y+1, x+2, "/");
+				mvwaddch(window, y+1, x+2, symbol[id]);
 			else 
-				mvwprintw(window, y, x-1, "/");
+				//mvwprintw(window, y, x-1, "/");
+				mvwaddch(window, y, x-1, symbol[id]);
 			
 			wrefresh(window);
 			std::this_thread::sleep_for(1s);
@@ -40,11 +43,14 @@ void philosopher(int id, Chopstick *chopstick, WINDOW* window, int y, int x)
 			// jego lewy
 			chopstick[(id + 1) % 5].wait();
 			if (id == 2)
-				mvwprintw(window, y, x-1, "/");	
+				//mvwprintw(window, y, x-1, "/");	
+				mvwaddch(window, y, x-1, symbol[(id+1)%5]);
 			else if (id == 4)
-				mvwprintw(window, y-1, x+2, "\\");
+				//mvwprintw(window, y-1, x+2, "\\");
+				mvwaddch(window, y-1, x+2, symbol[(id+1)%5]);
 			else 
-				mvwprintw(window, y, x+5, "\\");
+				//mvwprintw(window, y, x+5, "\\");
+				mvwaddch(window, y, x+5, symbol[(id+1)%5]);
 			
 			wrefresh(window);
 			std::this_thread::sleep_for(1s);
@@ -54,19 +60,23 @@ void philosopher(int id, Chopstick *chopstick, WINDOW* window, int y, int x)
 			// jego lewy
 			chopstick[(id + 1) % 5].wait();
 			if(id == 1)
-				mvwprintw(window, y+1, x+2, "\\");	
+				//mvwprintw(window, y+1, x+2, "\\");	
+				mvwaddch(window, y+1, x+2, symbol[(id+1)%5]);
 			else 
-				mvwprintw(window, y, x-1, "/");
+				//mvwprintw(window, y, x-1, "/");
+				mvwaddch(window, y, x-1, symbol[(id+1)%5]);
 			wrefresh(window);
 			std::this_thread::sleep_for(1s);
 			
 			// jego prawy
 			chopstick[id].wait();
 			if (id == 1)
-				mvwprintw(window, y-1, x+2, "/");
+				//mvwprintw(window, y-1, x+2, "/");
+				mvwaddch(window, y-1, x+2, symbol[id]);
 			else
-				mvwprintw(window, y, x+5, "\\");	
-			
+				//mvwprintw(window, y, x+5, "\\");	
+				mvwaddch(window, y, x+5, symbol[id]);
+
 			wrefresh(window);
 			std::this_thread::sleep_for(1s);
 		}
@@ -74,48 +84,34 @@ void philosopher(int id, Chopstick *chopstick, WINDOW* window, int y, int x)
 		// jedzenie
 		std::this_thread::sleep_for(2s);
 
-		//if (id == 0)
-		//{
-			// odkladanie jego prawego chopsticka
-			chopstick[id].signal(id, 'r');
-			if (id == 1)
-				mvwprintw(window, y-1, x+2, ".");
-			else if (id == 4)
-				mvwprintw(window, y+1, x+2, ".");
-			else
-				mvwprintw(window, y, x-1, ".");
-			wrefresh(window);
+		// odkladanie jego prawego chopsticka
+		chopstick[id].signal(id, 'r');
+		if (id == 1)
+			mvwprintw(window, y-1, x+2, "r");
+		else if (id == 4)
+			mvwprintw(window, y+1, x+2, "r");
+		else if (id == 0)
+			mvwprintw(window, y, x-1, "r");
+		else
+			mvwprintw(window, y, x+5, "r");
+		wrefresh(window);
 	
-			std::this_thread::sleep_for(1s);
+		std::this_thread::sleep_for(1s);
 
-			// odkladanie jego lewego chopsticka
-			chopstick[(id + 1) % 5].signal(id, 'l');
-			if (id == 1)
-				mvwprintw(window, y+1, x+2, ".");
-			else if (id == 4)
-				mvwprintw(window, y-1, x+2, ".");
-			else
-				mvwprintw(window, y, x+5, ".");
-			wrefresh(window);
+		// odkladanie jego lewego chopsticka
+		chopstick[(id + 1) % 5].signal(id, 'l');
+		if (id == 1)
+			mvwprintw(window, y+1, x+2, "l");
+		else if (id == 4)
+			mvwprintw(window, y-1, x+2, "l");
+		else if (id == 0)
+			mvwprintw(window, y, x+5, "l");
+		else
+			mvwprintw(window, y, x-1, "l");
+		wrefresh(window);
 
-			std::this_thread::sleep_for(1s);
-		//}
-		/* else
-		{
-			// odkladanie lewego chopsticka
-			chopstick[id].signal(id, 'r');
-			mvwprintw(window, y, x-1, ".");
-			wrefresh(window);
-	
-			std::this_thread::sleep_for(1s);
-
-			// odkladanie prawego chopsticka
-			chopstick[(id + 1) % 5].signal(id, 'l');
-			mvwprintw(window, y, x+3, ".");
-			wrefresh(window);
-
-			std::this_thread::sleep_for(1s);
-		} */
+		std::this_thread::sleep_for(1s);
+		
 		// myslenie
 		std::this_thread::sleep_for(2s);
 	//} while (true);
