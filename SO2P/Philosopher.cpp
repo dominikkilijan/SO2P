@@ -10,14 +10,18 @@ using namespace std::chrono_literals;
 
 // mutex zapobiegajacy przeskakiwaniu znakow w animacji
 std::mutex phM;
-
+// wspolrzedne glow filozofow
 extern int phy[5], phx[5];
+// wspolrzedne paleczek
 extern int chy[5], chx[5];
+// symbole paleczek
 extern char symbol[5];
+// nosy filozofow
+extern char nose[5];
 
 void philosopher(int id, Chopstick *chopstick, WINDOW* window, WINDOW* dTable, int y, int x)
 {
-	//do {
+	do {
 		// pauza zeby zobaczyc jak to wyglada na start
 		std::this_thread::sleep_for(1s);
 
@@ -25,10 +29,7 @@ void philosopher(int id, Chopstick *chopstick, WINDOW* window, WINDOW* dTable, i
 		if (id % 2 == 0)
 		{
 			// jego prawy
-			//phM.lock(); // mozna sprobowac usunac mutex z chopstick w takim razie (jesli to nie zadzialą)
-			chopstick[id].wait();
-			//phM.unlock(); 
-
+			chopstick[id].wait();		
 			if (id == 2)
 			{
 				phM.lock();
@@ -43,10 +44,10 @@ void philosopher(int id, Chopstick *chopstick, WINDOW* window, WINDOW* dTable, i
 				wrefresh(window);
 				phM.unlock();
 			}
-			else 
+			else // 0
 			{
 				phM.lock();
-				mvwaddch(window, y, x-1, symbol[id]);
+				mvwaddch(window, y, x-1, '/');
 				wrefresh(window);
 				phM.unlock();
 			}
@@ -65,7 +66,7 @@ void philosopher(int id, Chopstick *chopstick, WINDOW* window, WINDOW* dTable, i
 			if (id == 2)
 			{
 				phM.lock();	
-				mvwaddch(window, y, x-1, symbol[(id+1)%5]);
+				mvwaddch(window, y, x-1, '/');
 				wrefresh(window);
 				phM.unlock();
 			}
@@ -76,10 +77,10 @@ void philosopher(int id, Chopstick *chopstick, WINDOW* window, WINDOW* dTable, i
 				wrefresh(window);
 				phM.unlock();
 			}
-			else 
+			else
 			{
 				phM.lock();
-				mvwaddch(window, y, x+5, symbol[(id+1)%5]);
+				mvwaddch(window, y, x+5, '\\');
 				wrefresh(window);
 				phM.unlock();
 			}
@@ -131,10 +132,10 @@ void philosopher(int id, Chopstick *chopstick, WINDOW* window, WINDOW* dTable, i
 				wrefresh(window);
 				phM.unlock();
 			}
-			else
+			else // 3
 			{
 				phM.lock();	
-				mvwaddch(window, y, x+5, symbol[id]);
+				mvwaddch(window, y, x+5, '\\');
 				wrefresh(window);
 				phM.unlock();
 			}
@@ -148,7 +149,15 @@ void philosopher(int id, Chopstick *chopstick, WINDOW* window, WINDOW* dTable, i
 		}
 		
 		// jedzenie
+		phM.lock();
+		mvwaddch(window, phy[id], phx[id]+2,'o');
+		wrefresh(window);
+		phM.unlock();
 		std::this_thread::sleep_for(2s);
+		phM.lock();
+		mvwaddch(window, phy[id], phx[id]+2, nose[id]);
+		wrefresh(window);
+		phM.unlock();
 
 		// odkladanie jego prawego chopsticka
 		//phM.lock();
@@ -157,28 +166,28 @@ void philosopher(int id, Chopstick *chopstick, WINDOW* window, WINDOW* dTable, i
 		if (id == 1)
 		{
 			phM.lock();
-			mvwprintw(window, y-1, x+2, "r");
+			mvwprintw(window, y-1, x+2, " ");
 			wrefresh(window);
 			phM.unlock();
 		}
 		else if (id == 4)
 		{
 			phM.lock();
-			mvwprintw(window, y+1, x+2, "r");
+			mvwprintw(window, y+1, x+2, " ");
 			wrefresh(window);
 			phM.unlock();
 		}
 		else if (id == 0)
 		{
 			phM.lock();
-			mvwprintw(window, y, x-1, "r");
+			mvwprintw(window, y, x-1, " ");
 			wrefresh(window);
 			phM.unlock();
 		}
 		else
 		{
 			phM.lock();
-			mvwprintw(window, y, x+5, "r");
+			mvwprintw(window, y, x+5, " ");
 			wrefresh(window);
 			phM.unlock();
 		}
@@ -193,33 +202,33 @@ void philosopher(int id, Chopstick *chopstick, WINDOW* window, WINDOW* dTable, i
 
 		// odkladanie jego lewego chopsticka
 		//phM.lock();
-		chopstick[(id + 1) % 5].signal(id, 'l');
+		chopstick[(id + 1) % 5].signal(id, ' ');
 		//phM.unlock();
 		if (id == 1)
 		{
 			phM.lock();
-			mvwprintw(window, y+1, x+2, "l");
+			mvwprintw(window, y+1, x+2, " ");
 			wrefresh(window);
 			phM.unlock();
 		}
 		else if (id == 4)
 		{
 			phM.lock();
-			mvwprintw(window, y-1, x+2, "l");
+			mvwprintw(window, y-1, x+2, " ");
 			wrefresh(window);
 			phM.unlock();
 		}
 		else if (id == 0)
 		{
 			phM.lock();
-			mvwprintw(window, y, x+5, "l");
+			mvwprintw(window, y, x+5, " ");
 			wrefresh(window);
 			phM.unlock();
 		}
 		else
 		{
 			phM.lock();
-			mvwprintw(window, y, x-1, "l");
+			mvwprintw(window, y, x-1, " ");
 			wrefresh(window);
 			phM.unlock();
 		}
@@ -234,5 +243,6 @@ void philosopher(int id, Chopstick *chopstick, WINDOW* window, WINDOW* dTable, i
 		
 		// myslenie
 		std::this_thread::sleep_for(2s);
-	//} while (true);
+	//} while (wgetch(window) != 'x');
+	} while(true);
 }
