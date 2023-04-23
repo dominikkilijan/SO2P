@@ -76,16 +76,26 @@ void philosopher(int id, Chopstick *chopstick, WINDOW* window, int y, int x)
 
 		//if (id == 0)
 		//{
-			// odkladanie lewego chopsticka
-			chopstick[id].signal(id, 'l');
-			mvwprintw(window, y, x-1, ".");
+			// odkladanie jego prawego chopsticka
+			chopstick[id].signal(id, 'r');
+			if (id == 1)
+				mvwprintw(window, y-1, x+2, ".");
+			else if (id == 4)
+				mvwprintw(window, y+1, x+2, ".");
+			else
+				mvwprintw(window, y, x-1, ".");
 			wrefresh(window);
 	
 			std::this_thread::sleep_for(1s);
 
-			// odkladanie prawego chopsticka
-			chopstick[(id + 1) % 5].signal(id, 'r');
-			mvwprintw(window, y, x+5, ".");
+			// odkladanie jego lewego chopsticka
+			chopstick[(id + 1) % 5].signal(id, 'l');
+			if (id == 1)
+				mvwprintw(window, y+1, x+2, ".");
+			else if (id == 4)
+				mvwprintw(window, y-1, x+2, ".");
+			else
+				mvwprintw(window, y, x+5, ".");
 			wrefresh(window);
 
 			std::this_thread::sleep_for(1s);
